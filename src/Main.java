@@ -6,58 +6,55 @@ import br.com.dio.desafio.dominio.Mentoria;
 import java.time.LocalDate;
 
 public class Main {
+
     public static void main(String[] args) {
-        Curso curso1 = new Curso();
-        curso1.setTitulo("curso java");
-        curso1.setDescricao("descrição curso java");
-        curso1.setCargaHoraria(8);
-
-        Curso curso2 = new Curso();
-        curso2.setTitulo("curso js");
-        curso2.setDescricao("descrição curso js");
-        curso2.setCargaHoraria(4);
-
-        Mentoria mentoria = new Mentoria();
-        mentoria.setTitulo("mentoria de java");
-        mentoria.setDescricao("descrição mentoria java");
-        mentoria.setData(LocalDate.now());
-
-        /*System.out.println(curso1);
-        System.out.println(curso2);
-        System.out.println(mentoria);*/
+        Curso cursoJava = criarCurso("Curso Java", "Descrição curso Java", 8);
+        Curso cursoJs = criarCurso("Curso JS", "Descrição curso JS", 4);
+        Mentoria mentoriaJava = criarMentoria("Mentoria de Java", "Descrição mentoria Java");
 
         Bootcamp bootcamp = new Bootcamp();
         bootcamp.setNome("Bootcamp Java Developer");
         bootcamp.setDescricao("Descrição Bootcamp Java Developer");
-        bootcamp.getConteudos().add(curso1);
-        bootcamp.getConteudos().add(curso2);
-        bootcamp.getConteudos().add(mentoria);
+        bootcamp.getConteudos().add(cursoJava);
+        bootcamp.getConteudos().add(cursoJs);
+        bootcamp.getConteudos().add(mentoriaJava);
 
         Dev devCamila = new Dev();
         devCamila.setNome("Camila");
         devCamila.inscreverBootcamp(bootcamp);
-        System.out.println("Conteúdos Inscritos Camila:" + devCamila.getConteudosInscritos());
-        devCamila.progredir();
-        devCamila.progredir();
-        System.out.println("-");
-        System.out.println("Conteúdos Inscritos Camila:" + devCamila.getConteudosInscritos());
-        System.out.println("Conteúdos Concluídos Camila:" + devCamila.getConteudosConcluidos());
-        System.out.println("XP:" + devCamila.calcularTotalXp());
+        simularProgresso(devCamila, 2);
 
         System.out.println("-------");
 
         Dev devJoao = new Dev();
-        devJoao.setNome("Joao");
+        devJoao.setNome("João");
         devJoao.inscreverBootcamp(bootcamp);
-        System.out.println("Conteúdos Inscritos João:" + devJoao.getConteudosInscritos());
-        devJoao.progredir();
-        devJoao.progredir();
-        devJoao.progredir();
-        System.out.println("-");
-        System.out.println("Conteúdos Inscritos João:" + devJoao.getConteudosInscritos());
-        System.out.println("Conteúdos Concluidos João:" + devJoao.getConteudosConcluidos());
-        System.out.println("XP:" + devJoao.calcularTotalXp());
-
+        simularProgresso(devJoao, 3);
     }
 
+    private static Curso criarCurso(String titulo, String descricao, int cargaHoraria) {
+        Curso curso = new Curso();
+        curso.setTitulo(titulo);
+        curso.setDescricao(descricao);
+        curso.setCargaHoraria(cargaHoraria);
+        return curso;
+    }
+
+    private static Mentoria criarMentoria(String titulo, String descricao) {
+        Mentoria mentoria = new Mentoria();
+        mentoria.setTitulo(titulo);
+        mentoria.setDescricao(descricao);
+        mentoria.setData(LocalDate.now());
+        return mentoria;
+    }
+
+    private static void simularProgresso(Dev dev, int passos) {
+        System.out.println("Conteúdos Inscritos " + dev.getNome() + ": " + dev.getConteudosInscritos());
+        for (int i = 0; i < passos; i++) {
+            dev.progredir();
+        }
+        System.out.println("Conteúdos Inscritos " + dev.getNome() + ": " + dev.getConteudosInscritos());
+        System.out.println("Conteúdos Concluídos " + dev.getNome() + ": " + dev.getConteudosConcluidos());
+        System.out.println("XP: " + dev.calcularTotalXp());
+    }
 }
